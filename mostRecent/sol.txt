@@ -1,4 +1,6 @@
 #finished in 39m
+#2nd solution available
+
 #input - int
 #output - list[string]
 def changeToList(num):
