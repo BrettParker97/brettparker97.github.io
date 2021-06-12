@@ -1,39 +1,46 @@
-#finished in 39m
-#2nd solution available
+#finished in 21m 53sec
+def convert_to_int(s):
+    neg = False
+    nums = []
+    first = True
+    #loop through each char of the string
+    for x in s:
+        #get ascii value
+        asci = ord(x)
+        
+        #set neg if first value is a neg sign
+        if asci == 45 and first:
+            neg = True
+            first = False
+            continue
+            
+        #check what int the char reps
+        value = 0
+        for y in range(48, 58):
+            if asci == y:
+                nums.append(value)
+                break
+            value += 1
+            if value == 10:
+                break
+            
+        #if we reached value 10, the char wasnt an int
+        if value == 10:
+            return None
 
-#input - int
-#output - list[string]
-def changeToList(num):
-    listBits = []
-    for x in reversed(range(32)):
-        #if pow(2, x) can be subtracted, do so and add 1
-        #to this index in the list, else 0
-        if num - pow(2, x) < 0:
-            listBits.append("0")
-        else:
-            num -= pow(2, x)
-            listBits.append("1")
-    return listBits
-
-def swap_bits(num):
-    #get list representation of num
-    numAsList = changeToList(num)
-    
-    #swap the values
-    for x in range(32):
-        if x % 2 == 0:
-            temp1 = numAsList[x]
-            temp2 = numAsList[x + 1]
-            numAsList[x] = temp2
-            numAsList[x + 1] = temp1
-    
-    #create a string from list
-    res = ""
-    for x in numAsList:
-        res += x
-    
-    #return as int
-    return int(res, 2)
-
-print(f"0b{swap_bits(0b10101010101010101010101010101010):032b}")
-# 0b01010101010101010101010101010101
+    #multiply each indiv value by its place in the
+    #base 10 version of the num
+    res = 0
+    index = 1
+    for x in nums:
+        res += (x * pow(10, (len(nums) - index)))
+        index += 1
+        
+    #return the int
+    if neg:
+        return res * -1
+    else:
+        return res
+        
+print(convert_to_int('-105') + 1)
+# -104
