@@ -1,43 +1,63 @@
-class Node:
-    def __init__(self, value, next=None):
-        self.value = value
-        self.next = next
+'''
+I know this isn't the best solution, however this is the one
+I could come up with in a reasonable time and without google
+assistance.
 
-    def __repr__(self):
-        return f"({self.value}, {self.next})"
+The inefficency comes from checking every diagnal, instead of
+finding the relationship between the index we're checking and the other
+queens. This involves a bit of math and head scratching. Though its an
+easy google search I try to do these problems without any help, minus
+syntax help, from online.
+'''
+def recursion(currentQs, index, matSize):
+    #end case
+    if index[0] > matSize - 1 or index[1] > matSize - 1:
+        return [None]
     
-def remove_dup(lst):
-    #store values we have seen
-    occur = []
+    #check vert
+    for x in currentQs:
+        if x[1] == index[1]:
+            return [None]
+
+    #check diags
+    for x in range(1, min(index[0], index[1]) + 1):
+        if [index[0] - x,index[1] - x] in currentQs:
+            return [None]
+        if [index[0] - x,index[1] + x] in currentQs:
+            return [None]
+        if [index[0] + x,index[1] - x] in currentQs:
+            return [None]
+        if [index[0] + x,index[1] + x] in currentQs:
+            return [None]
+
+    #if we pass checks, check if done
+    tempQs = currentQs.copy()
+    tempQs.append(index)
+    if len(tempQs) == matSize:
+        return [index]
+
+    #if were not done, try to move on
+    for col in range(matSize):
+        res = recursion(tempQs, [index[0] + 1, col], matSize)
+        if res[0] != None:
+            return [index] + res
     
-    #init values
-    head = lst
-    occur.append(head.value)
-    node = None
-    if head.next != None:
-        node = head.next
-    else:
-        return head
-        
-    #loop through all nodes in list
-    while True:
-        #end case
-        if node.next == None:
-            if node.value in occur:
-                head.next = None
-            return
-        
-        #check
-        if node.value in occur:
-            head.next = node.next
-            node = node.next
-        else:
-            occur.append(node.value)
-            head = node
-            node = node.next
+    #if none of the later branches worked return
+    return [None]
 
-lst = Node(1, Node(2, Node(2, Node(3, Node(3)))))
+def n_queens(n):
+    for x in range(n):
+        res = recursion([], [0, x], n)
+        if res[0] != None:
+            return res
+    return "No layout found"
 
-remove_dup(lst)
-print(lst)
-# (1, (2, (3, None)))
+print(n_queens(5))
+# There can be many answers
+# [(0, 0), (1, 2), (2, 4), (3, 1), (4, 3)]
+
+# Q . . . .
+# . . . Q .
+# . Q . . .
+# . . . . Q
+# . . Q . .
