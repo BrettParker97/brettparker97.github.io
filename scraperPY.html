@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<!--
+	Hyperspace by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Brett Parker's Projects</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<a href="index.html" class="title">Brett Parker</a>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<section id="main" class="wrapper">
+						<div class="inner">
+							<h1 class="major">Web Scraper w/ Database (Python)</h1>
+							
+
+							<p>This project was a personal project I’ve wanted to do for along time. I chose to code the project in python to get more practice using the language. I used MySQL for the database since I had previous knowledge using a local host with MySQL and felt comfortable designing a simple database to store my programs data into. I had to learn/use a little bit of JavaScript and HTML to parse the website data. My goal was to scrape from 5 thousand pages and store the data into a database.<br><br>
+								A problem I ran into while doing this project was using multiprocessing to speed up the web accesses I was doing. The initial page I was planning on scrapping from had a limit of 5 page requests a minute, which was far to small for the scale I wanted to do. So, I found a different website with around a 3 page a second limit, but with less data and less accuracy within the data. Multiprocessing was used to get as close to the limits as I could so the program took an hour instead of days. This also allowed me a lot of control with how fast I was sending page requests.<br></p>
+								<p class="image" ><img src="images/ScraperPY_runningProg.png" alt="" data-position="center center" width =50%/></p>
+								<p>
+								<br>
+
+								As for the results of the web scrapping, I first ran all the initial statistics on the raw data that I wanted. I then stored the data in custom data class. Using multiprocessing again, I made a thread that would submit these data objects to the database while the program was still running. After a rough start, the last couple thousand pages were properly scraped, parsed, and stored without any bugs.<br></p>
+								<p class="image"><img src="images/ScraperPY_database.png" alt="" data-position="center center" width = 100%/></p>
+								<p><br>
+								As for viewing the data, I resulted to the table listed in the phpMyAdmin page of the localhost server. I found the table there was able to order the data by whatever datapoints I wanted. It also allows me to query the database as I want, so I found there was no reason to make a different front end then what phpMyAdmin gave.
+								
+
+							</p>
+
+							<ul> <u>Skills Learned</u>
+								<li>Significantly greater understanding of python and its workings</li>
+								<li>Much more comfortable with local host software/databases</li>
+								<li>Solidified knowledge of MySQL workflow including creation and querying of databases</li>
+								<li>Learned how https requests work and the importance of limiting page requests</li>
+							</ul>
+							
+							<p>Check out the source code for the project at the github page below. <br>
+							<a href="https://github.com/BrettParker97/ScraperPy" target="_blank">https://github.com/BrettParker97/ScraperPy</a>
+							</p>
+						
+
+						</div>
+					</section>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>
