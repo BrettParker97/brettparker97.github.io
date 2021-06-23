@@ -1,63 +1,67 @@
-'''
-I know this isn't the best solution, however this is the one
-I could come up with in a reasonable time and without google
-assistance.
-
-The inefficency comes from checking every diagnal, instead of
-finding the relationship between the index we're checking and the other
-queens. This involves a bit of math and head scratching. Though its an
-easy google search I try to do these problems without any help, minus
-syntax help, from online.
-'''
-def recursion(currentQs, index, matSize):
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.conns = []
+        
+    def deleteConn(self, value):
+        for node in self.conns:
+            if node.value == value:
+                self.conns.remove(node)
+       
+def recursion(node, nodes):
     #end case
-    if index[0] > matSize - 1 or index[1] > matSize - 1:
-        return [None]
+    if node.conns == []:
+        del nodes[node.value]
+        return
+        
+    connections = node.conns
+    #delete x from its connections
+    for x in connections:
+        for y in x.conns:
+            if y.value == node.value:
+                x.conns.remove(node)
     
-    #check vert
-    for x in currentQs:
-        if x[1] == index[1]:
-            return [None]
-
-    #check diags
-    for x in range(1, min(index[0], index[1]) + 1):
-        if [index[0] - x,index[1] - x] in currentQs:
-            return [None]
-        if [index[0] - x,index[1] + x] in currentQs:
-            return [None]
-        if [index[0] + x,index[1] - x] in currentQs:
-            return [None]
-        if [index[0] + x,index[1] + x] in currentQs:
-            return [None]
-
-    #if we pass checks, check if done
-    tempQs = currentQs.copy()
-    tempQs.append(index)
-    if len(tempQs) == matSize:
-        return [index]
-
-    #if were not done, try to move on
-    for col in range(matSize):
-        res = recursion(tempQs, [index[0] + 1, col], matSize)
-        if res[0] != None:
-            return [index] + res
+    #remove x from dict
+    del nodes[node.value]
     
-    #if none of the later branches worked return
-    return [None]
-
-def n_queens(n):
-    for x in range(n):
-        res = recursion([], [0, x], n)
-        if res[0] != None:
-            return res
-    return "No layout found"
-
-print(n_queens(5))
-# There can be many answers
-# [(0, 0), (1, 2), (2, 4), (3, 1), (4, 3)]
-
-# Q . . . .
-# . . . Q .
-# . Q . . .
-# . . . . Q
-# . . Q . .
+    #repeat on the previously disconnected nodes
+    for x in connections:
+        recursion(x, nodes)
+    return
+    
+def num_connected_components(edges):
+    nodes = {}
+    #create graph, store in nodes dict
+    for x in edges:
+        #fetch or create graph nodes
+        node1 = None
+        if x[0] in nodes:
+            node1 = nodes[x[0]]
+        else:
+            node1 = Node(x[0])
+            nodes[x[0]] = node1
+        node2 = None
+        if x[1] in nodes:
+            node2 = nodes[x[1]]
+        else:
+            node2 = Node(x[1])
+            nodes[x[1]] = node2
+        
+        #connect them
+        node1.conns.append(node2)
+        node2.conns.append(node1)
+    
+    comps = 0
+    #start deleteing nodes, when a node has 0 conns
+    #we increase comps by 1
+    while len(nodes) > 0:
+        aNode = None
+        for x in nodes:
+            aNode = nodes[x]
+            break    
+        recursion(aNode, nodes)
+        comps += 1
+    return comps
+            
+print(num_connected_components([(1, 2), (2, 3), (4, 1), (5, 6)]))
+# 2
