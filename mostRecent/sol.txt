@@ -1,23 +1,30 @@
-def common_characters(strs):
+def transpose(mat):
+    #get OG measurements
+    height = len(mat)
+    width = len(mat[0])
+    
     res = []
-    #take first string and loop through the chars
-    for x in strs[0]:
-        add = True
-        #loop through the rest of the strings
-        for y in range(1, len(strs) - 1):
-            #if the char doesnt show up, move on 
-            if x not in strs[y]:
-                add = False
-                break
-        #if all strings had the char then add to res
-        #if not already in res
-        if add:
-            if x not in res:                    
-                res.append(x)
+    #x and y are our position in OG mat
+    for x in range(height):
+        for y in range(width):
+            #the OG mat width should be = to res height
+            #if its not then make a new list there with
+            #our value
+            if y >= len(res):
+                res.append([mat[x][y]])
+                continue
+            
+            #if we didnt make a new list, just add this value
+            #to the list that is there
+            res[y].append(mat[x][y])
     return res
 
-print(common_characters(['google', 'facebook', 'youtube']))
-# ['e', 'o']
+mat = [
+    [1, 2, 3],
+    [4, 5, 6],
+]
 
-print(common_characters(['piee', 'taape', 'pretty']))
-# ['p', 'e']
+print(transpose(mat))
+# [[1, 4],
+#  [2, 5], 
+#  [3, 6]]
