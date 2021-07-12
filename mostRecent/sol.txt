@@ -1,31 +1,32 @@
-def intersection(list1, list2, list3):
-    #find sortest list
-    shortest = []
-    l2 = []
-    l3 = []
-    one = len(list1)
-    two = len(list2)
-    three = len(list3)
-    if one >= two and one >= three:
-        shortest = list1
-        l2 = list2
-        l3 = list3
-    elif two >= one and two >= three:
-        shortest = list2
-        l2 = list1
-        l3 = list3
-    else:
-        shortest = list3
-        l2 = list1
-        l3 = list2
-    
-    #loop through all elements in shortest list
-    #check if the element is in the other 2 lists
-    for x in shortest:
-        if x in l2 and x in l3:
-            return x
-    print("No overlap found")
-    return -1
-  
-print(intersection([1, 2, 3, 4], [2, 4, 6, 8], [3, 4, 5]))
-# [4]
+import math
+
+#sol 1
+def pascal_triangle_row(n):
+    res = [1,1]
+    temp = []
+    for x in range(3, n + 1):
+        for y in range(x):
+            if y == 0 or y == x - 1:
+                temp.append(1)
+                continue
+            #add from array above
+            pre = res[y - 1]
+            post = res[y]
+            temp.append(pre + post)
+        res = temp
+        temp = []
+    return res
+
+#sol 2
+#I knew there was an equation to do this directly
+#but wanted my first try to be what I could code
+#without assistance
+def better(val):
+    n = val - 1
+    res = []
+    for k in range(val):
+        res.append((int)((math.factorial(n)) / ((math.factorial(k)) * (math.factorial(n - k)))))
+    return res
+
+print(better(6))
+# [1, 5, 10, 10, 5, 1]
