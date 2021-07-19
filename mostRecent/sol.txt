@@ -1,38 +1,35 @@
-def reverse_integer(num):
-    #check for negitive value
-    neg = False
-    if num < 0:
-        neg = True
-        num = abs(num)
-        
-    #check how big num is
-    x = 1
-    while num / x >= 1:
-        x *= 10
-    x /= 10
-    
-    #divide x out of num, tells us the val at x position
-    #then subtract that val out of num
+def fourSum(nums, target):
     res = []
-    while x >= 1:
-        val = int(num / x)
-        num -= val * x
-        x /= 10
-        res.append(val)
-    
-    #reverse list of vals then return as int
-    temp = reversed(res)
-    res = []
-    for x in temp:
-        res.append(str(x))
-    res2 = "".join(res)    
-    
-    if neg:
-        return -1 * int(res2) 
-    return int(res2)
-  
-print(reverse_integer(135))
-# 531
+    #make 4 indexes that are never == to each other
+    for x in range(len(nums)):
+        for y in range(len(nums)):
+            if y == x:
+                continue
+            for z in range(len(nums)):
+                if z == x or z == y:
+                    continue
+                for i in range(len(nums)):
+                    if i == x or i == y or i == z:
+                        continue
+                    
+                    #check if this combo works
+                    temp = [nums[x], nums[y], nums[z], nums[i]]
+                    summ = sum(temp)
+                    if summ == target:
+                        #sort list so we dont have dups in res
+                        temp.sort()
+                        if temp not in res:
+                            res.append(temp)
+    return res
 
-print(reverse_integer(-321))
-# -123
+print(fourSum([1, 1, -1, 0, -2, 1, -1], 0))
+# print [[-1, -1, 1, 1], [-2, 0, 1, 1]]
+
+print("")
+
+print(fourSum([3, 0, 1, -5, 4, 0, -1], 1))
+# print [[-5, -1, 3, 4]]
+
+print("")
+print(fourSum([0, 0, 0, 0, 0], 0))
+# print ([0, 0, 0, 0])
