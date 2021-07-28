@@ -1,29 +1,28 @@
-def majority_element(nums):
-    #count up all the elements
-    count = {}
-    for x in nums:
-        if x not in count:
-            count[x] = 1
-            continue
-        count[x] += 1
+def one_bits(num):
+    #not dealing with negitives in this problem
+    num = abs(num)
     
-    #pick the majority_element
-    #assumes there is one, from question
-    res = None
-    ignore = []
-    bestCount = 0
-    for x in count:
-        if res == None:
-            res = x
-            bestCount = count[x]
-            continue
-        if count[x] > bestCount:
-            res = x
-            bestCount = count[x]
+    #find greatest pow 2 in num
+    p = 0
+    for x in range(num):
+        if num - pow(2, x) >= 0:
+            p = x
+        else:
+            break
+    
+    #start from greatest pow and work down to 0
+    res = 0
+    for x in reversed(range(0, p + 1)):
+        temp = pow(2, x)
+        if num - temp >= 0:
+            num -= temp
+            res += 1
     return res
 
-print(majority_element([3, 5, 3, 3, 2, 4, 3]))
-# 3
+print(one_bits(23))
+# 4
+# 23 = 0b10111
 
-print(majority_element([3, 5, 5, 5, 5, 4, 3]))
-# 5
+print(one_bits(727000))
+# 11
+# 727000 = 0b10110001011111011000
